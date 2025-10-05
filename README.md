@@ -64,28 +64,16 @@ This app lets users explore recipes by **name, category, or ingredients**, view 
 | Favourites | `GetStorage` | `favourites` key | Stores list of favourite recipes as JSON |
 | Theme Mode | `GetStorage` | `isDarkMode` key | Stores boolean value for dark/light theme |
 
-##File struture
-lib/
- ├── controllers/
- │   ├── recipe_controller.dart
- │   ├── theme_controller.dart
- │   └── ...
- ├── models/
- │   └── recipe_model.dart
- ├── services/
- │   ├── api_service.dart
- │   └── favorite_service.dart
- ├── screens/
- │   ├── home_screen.dart
- │   ├── search_screen.dart
- │   ├── detailed_recipe_view.dart
- │   ├── favorites_screen.dart
- │   ├── settings_screen.dart
- │   └── splash_screen.dart
- ├── widgets/
- │   ├── recipe_tile.dart
- │   └── loading_dialog.dart
- └── main.dart
+## 🧠 State Management & Local Storage
+
+--The app uses **GetX** extensively for reactive state management, dependency injection, and route handling. All controllers and services are registered globally with `Get.put()` and accessed anywhere without context, ensuring clean and maintainable architecture.
+
+--Favourites are handled using a dedicated `FavouriteService`, which stores the list of favourite recipes in an observable `RxList<RecipeModel>`. This list automatically updates the UI whenever changes occur, thanks to GetX’s reactivity.
+
+--Local persistence is implemented using **GetStorage**, a lightweight key-value storage system. Each time the favourites list changes, the updated data is serialized via `toJson()` and saved locally. On app startup, the data is read back into memory, ensuring users never lose their saved recipes even after restarting the app.
+
+--In short — **GetX** powers the app’s reactivity, routing, and dependency management, while **GetStorage** ensures persistent and seamless offline access to user favourites.
+
 
 
 
