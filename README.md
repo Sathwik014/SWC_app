@@ -29,6 +29,10 @@ This app lets users explore recipes by **name, category, or ingredients**, view 
 
 ---
 
+
+https://github.com/user-attachments/assets/f0e64dbb-1621-4714-af7a-7edde29f9cc4
+
+
 ### Detailed Recipe Page
 - Displays:
   - Recipe image, name, and preparation time.
