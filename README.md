@@ -30,13 +30,13 @@ This app lets users explore recipes by **name, category, or ingredients**, view 
 ---
 
 
-https://github.com/user-attachments/assets/f0e64dbb-1621-4714-af7a-7edde29f9cc4
-
-
 ### Detailed Recipe Page
 - Displays:
   - Recipe image, name, and preparation time.
   - **Ingredients list**
+
+
+
   - **Instructions**
   - **Nutrition Summary** (calories, protein, carbs, etc.) shown with colorful chips.
 - Includes a **heart icon ❤️** to save/remove favourites.
@@ -87,3 +87,5 @@ https://github.com/user-attachments/assets/f0e64dbb-1621-4714-af7a-7edde29f9cc4
 ![WhatsApp Image 2025-10-06 at 12 55 57 AM (1)](https://github.com/user-attachments/assets/c376f963-e517-48da-b1a6-be8a2c1cd5ef)
 ![WhatsApp Image 2025-10-06 at 12 56 08 AM](https://github.com/user-attachments/assets/9e4461ca-fac2-4fa2-87c2-2406c2126fb3)
 ![WhatsApp Image 2025-10-06 at 12 56 08 AM (1)](https://github.com/user-attachments/assets/90550775-ccbf-45f1-8990-381ce61edc4d)
+https://github.com/user-attachments/assets/4df2e09e-5ea9-4d3c-b3ec-c942f94f5b30
+
