@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:swc_app/widgets/loading_dialog.dart';
 import '../controllers/recipe_controller.dart';
 import '../models/recipe_model.dart';
 import '../services/favorite_service.dart';
+import '../widgets/loading_dialog.dart';
 
 class DetailedRecipeView extends StatelessWidget {
   final RecipeController recipeController = Get.find();
@@ -15,7 +15,12 @@ class DetailedRecipeView extends StatelessWidget {
   Widget build(BuildContext context) {
     final RecipeModel recipe = Get.arguments;
     recipeController.clearSelectedRecipe();
-    recipeController.loadRecipeDetails(recipe.id);
+
+    Future.microtask(() async {
+      LoadingDialog.show(context);
+      await recipeController.loadRecipeDetails(recipe.id);
+      if (context.mounted) LoadingDialog.hide(context);
+    });
 
     return Scaffold(
       appBar: AppBar(
@@ -34,15 +39,6 @@ class DetailedRecipeView extends StatelessWidget {
         ],
       ),
       body: Obx(() {
-        if (recipeController.isLoading.value) {
-          WidgetsBinding.instance.addPostFrameCallback((_) {
-            LoadingDialog.show(context);
-          });
-          return const SizedBox.shrink();
-        } else {
-          LoadingDialog.hide(context);
-        }
-
         final data = recipeController.selectedRecipe.value ?? recipe;
 
         return SingleChildScrollView(
@@ -76,7 +72,6 @@ class DetailedRecipeView extends StatelessWidget {
               ),
               const SizedBox(height: 20),
 
-              // 🍽 Ingredients
               if (data.ingredients != null && data.ingredients!.isNotEmpty)
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -86,8 +81,7 @@ class DetailedRecipeView extends StatelessWidget {
                             fontSize: 18, fontWeight: FontWeight.bold)),
                     const SizedBox(height: 8),
                     ...data.ingredients!.map((i) => Padding(
-                      padding:
-                      const EdgeInsets.symmetric(vertical: 2.0),
+                      padding: const EdgeInsets.symmetric(vertical: 2.0),
                       child: Row(
                         children: [
                           const Icon(Icons.circle,
@@ -101,7 +95,6 @@ class DetailedRecipeView extends StatelessWidget {
                   ],
                 ),
 
-              // 🧾 Instructions
               const Text("Instructions:",
                   style: TextStyle(
                       fontSize: 18, fontWeight: FontWeight.bold)),
@@ -114,7 +107,6 @@ class DetailedRecipeView extends StatelessWidget {
               ),
               const SizedBox(height: 20),
 
-              // 🍎 Nutrition Summary (Color-coded)
               if (data.nutrition != null && data.nutrition!.isNotEmpty)
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,

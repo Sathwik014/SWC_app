@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../controllers/recipe_controller.dart';
 import '../widgets/recipe_tile.dart';
+import '../widgets/loading_dialog.dart';
 
 class SearchPage extends StatelessWidget {
   final RecipeController controller = Get.find();
@@ -23,16 +24,16 @@ class SearchPage extends StatelessWidget {
               prefixIcon: const Icon(Icons.search),
               border: OutlineInputBorder(borderRadius: BorderRadius.circular(30)),
             ),
-            onSubmitted: (val) {
-              controller.search(query: val);
+            onSubmitted: (val) async {
+              LoadingDialog.show(context);
+              await controller.search(query: val);
+              if (context.mounted) LoadingDialog.hide(context);
             },
           ),
           const SizedBox(height: 20),
           Expanded(
             child: Obx(() {
-              if (controller.isLoading.value) {
-                return const Center(child: CircularProgressIndicator());
-              }
+              if (controller.isLoading.value) return const SizedBox.shrink();
               if (controller.recipes.isEmpty) {
                 return const Center(child: Text("No results found"));
               }

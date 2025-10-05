@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:swc_app/controllers/theme_controller.dart';
+import 'package:swc_app/screens/recipe_screen.dart';
 import 'screens/splash_screen.dart';
 import 'screens/home_screen.dart';
 import 'controllers/recipe_controller.dart';
@@ -38,7 +39,8 @@ class RecipeApp extends StatelessWidget {
       themeMode: ThemeMode.system,
       home: const SplashScreen(),
       getPages: [
-        GetPage(name: '/home', page: () => HomeScreen()),
+        GetPage(name: '/home', page: () => const HomeScreen()),
+        GetPage(name: '/Recipe-details', page: () => DetailedRecipeView()),
       ],
     );
   }

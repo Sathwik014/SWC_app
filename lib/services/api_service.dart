@@ -4,9 +4,9 @@ import '../models/recipe_model.dart';
 
 class ApiService {
   static const String _baseUrl = 'https://api.spoonacular.com';
-  static const String _apiKey = 'c86c0e8efd5144dcb97b4ee12d634d24';
+  static const String _apiKey = 'ae0fed3ac5e24156bc2e27ead2bf22a8';
 
-  /// 🔍 Unified search by name, ingredient, or category
+  /// Unified search by name, ingredient, or category
   static Future<List<RecipeModel>> searchAll({
     String? query,
     String? ingredient,
@@ -23,12 +23,16 @@ class ApiService {
       }
 
       final res = await http.get(Uri.parse(endpoint));
-
       if (res.statusCode == 200) {
         final data = jsonDecode(res.body);
         final results = data is Map ? data['results'] : data;
+
         return (results as List)
-            .map((e) => RecipeModel.fromJson(Map<String, dynamic>.from(e)))
+            .map((e) {
+          final map = Map<String, dynamic>.from(e);
+          map['id'] = map['id']?.toString() ?? DateTime.now().millisecondsSinceEpoch.toString();
+          return RecipeModel.fromJson(map);
+        })
             .toList();
       } else {
         print("API Error: ${res.statusCode} ${res.body}");
@@ -39,6 +43,7 @@ class ApiService {
       return _fallbackRecipes();
     }
   }
+
 
   /// 🍲 Fetch full recipe details including nutrition
   static Future<RecipeModel?> getRecipeDetails(String? id) async {

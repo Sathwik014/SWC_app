@@ -7,6 +7,7 @@ import '../controllers/recipe_controller.dart';
 import '../widgets/recipe_tile.dart';
 import 'category_screen.dart';
 import 'search_screen.dart';
+import '../widgets/loading_dialog.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -33,6 +34,16 @@ class _HomeScreenState extends State<HomeScreen> {
     {"name": "Italian", "image": "assets/images/italian.jpg"},
     {"name": "Korean", "image": "assets/images/korean.jpg"},
   ];
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      LoadingDialog.show(context);
+      await controller.fetchFeatured();
+      if (mounted) LoadingDialog.hide(context);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -80,7 +91,6 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           const SizedBox(height: 20),
 
-          // Search bar → Navigates to Search Page
           GestureDetector(
             onTap: () => Get.to(() => SearchPage()),
             child: Container(
@@ -130,17 +140,12 @@ class _HomeScreenState extends State<HomeScreen> {
           _buildCategoryList(cuisines, false),
 
           const SizedBox(height: 25),
-
           const Text("Recommended 👨‍🍳",
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
           const SizedBox(height: 10),
 
           Obx(() {
             if (controller.isLoading.value) {
-              return const Center(child: CircularProgressIndicator());
-            }
-            if (controller.featuredRecipes.isEmpty) {
-              controller.fetchFeatured();
               return const SizedBox.shrink();
             }
             return GridView.builder(
@@ -176,12 +181,14 @@ class _HomeScreenState extends State<HomeScreen> {
         itemBuilder: (context, index) {
           final item = list[index];
           return GestureDetector(
-            onTap: () {
+            onTap: () async {
+              LoadingDialog.show(context);
               if (isDish) {
-                controller.search(query: item['name']);
+                await controller.search(query: item['name']);
               } else {
-                controller.search(category: item['name']);
+                await controller.search(category: item['name']);
               }
+              if (mounted) LoadingDialog.hide(context);
               Get.to(() => CategoryRecipeView(title: item['name']!));
             },
             child: Container(

@@ -17,12 +17,17 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
+
+    // Start fade-in animation
     Future.delayed(const Duration(milliseconds: 200), () {
-      setState(() => _opacity = 1.0);
+      setState(() {
+        _opacity = 1;
+      });
     });
 
+    // Navigate after 3 seconds
     Timer(const Duration(seconds: 3), () {
-      Get.offAll(() => HomeScreen());
+      Get.offAll(() => const HomeScreen());
     });
   }
 
@@ -37,16 +42,19 @@ class _SplashScreenState extends State<SplashScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Lottie.asset('assets/animations/splash.json',
-                  width: 200, height: 200, fit: BoxFit.contain),
-              const SizedBox(height: 20),
+              Lottie.asset(
+                'assets/animations/splash.json',
+                width: 200,
+                height: 200,
+              ),
+              const SizedBox(height: 16),
               const Text(
-                "Zara Khud Se Bhi Khana Pakalo",
+                "Zara Khud Se Bhi Khana Pakalo 👨‍🍳",
                 style: TextStyle(
-                  fontSize: 24,
                   color: Colors.white,
+                  fontSize: 22,
                   fontWeight: FontWeight.bold,
-                  letterSpacing: 1.2,
+                  letterSpacing: 1,
                 ),
               ),
             ],

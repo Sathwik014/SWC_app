@@ -15,14 +15,15 @@ class LoadingDialog {
             mainAxisSize: MainAxisSize.min,
             children: [
               Lottie.asset(
-                'assets/animations/loading_food.json',
+                'assets/animations/loading.json',
                 width: 120,
                 height: 120,
                 repeat: true,
               ),
               const SizedBox(height: 10),
               const Text(
-                "Maggi jitna jaldi toh nahi hoga 🍜",
+                "Maggi jitna jaldi toh nahi hoga"
+                    "",
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   color: Colors.white,
